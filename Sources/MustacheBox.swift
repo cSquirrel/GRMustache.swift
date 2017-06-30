@@ -531,8 +531,7 @@ extension MustacheBox {
             if dictionary.isEmpty {
                 facets.append("[:]")
             } else {
-                let items = dictionary.map { (key, box) in
-                    return "\(String(reflecting: key)):\(box.valueDescription)"
+                let items = dictionary.map { let (key, box) = $0; return "\(String(reflecting: key)):\(box.valueDescription)"
                 }.joined(separator: ",")
                 facets.append("[\(items)]")
             }

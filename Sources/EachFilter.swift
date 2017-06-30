@@ -43,7 +43,7 @@ let EachFilter = Filter { (box: MustacheBox) -> Any? in
     // (NSDictionary, [String: Int], [String: CustomObject], etc.
     if let dictionary = box.dictionaryValue {
         let count = dictionary.count
-        let customRenderFunctions = dictionary.enumerated().map { (index: Int, element: (key: String, box: MustacheBox)) -> Any? in
+        let customRenderFunctions = dictionary.enumerated().map { (__val:(Int, (key: String, box: MustacheBox))) -> Any? in let (index,element) = __val;
             let customRenderFunction: RenderFunction = { info in
                 // Push positional keys in the context stack and then perform
                 // a regular rendering.
@@ -77,7 +77,7 @@ let EachFilter = Filter { (box: MustacheBox) -> Any? in
     // the boxed collection: NSArray, NSSet, [String], [CustomObject], etc.
     if let boxes = box.arrayValue {
         let count = boxes.count
-        let customRenderFunctions = boxes.enumerated().map { (index: Int, box: MustacheBox) -> Any? in
+        let customRenderFunctions = boxes.enumerated().map { (__val:(Int, MustacheBox)) -> Any? in let (index,box) = __val;
             let customRenderFunction: RenderFunction = { info in
                 // Push positional keys in the context stack and then perform
                 // a regular rendering.
@@ -98,5 +98,5 @@ let EachFilter = Filter { (box: MustacheBox) -> Any? in
     }
     
     // Non-iterable value
-    throw MustacheError(kind: .renderError, message: "Non-enumerable argument in each filter: \(box.value)")
+    throw MustacheError(kind: .renderError, message: "Non-enumerable argument in each filter: \(String(describing: box.value))")
 }
